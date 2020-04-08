@@ -1,107 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import api from '../../services/api'
+import { formatPrice } from '../../util/format'
 
 import { MdAddShoppingCart } from 'react-icons/md'
 import { ProductList } from './styles'
 
-function Home() {
+const Home = () => {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    let ignore = false
+    const runEffect = async () => {
+      const response = await api.get('products')
+
+      if (!ignore) {
+        const data = response.data.map((product) => ({
+          ...product,
+          priceFormatted: formatPrice(product.price),
+        }))
+
+        setProducts(data)
+      }
+
+      return () => {
+        ignore = true
+      }
+    }
+    runEffect()
+  }, [])
+
   return (
     <ProductList>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
+      {products.map((product) => (
+        <li key={product.id}>
+          <img src={product.image} alt={product.title} />
+          <strong>{product.title}</strong>
+          <span>{product.priceFormatted}</span>
 
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
+          <button type='button'>
+            <div>
+              <MdAddShoppingCart size={16} color='#FFF' />
+            </div>
 
-          <span>ADD TO CART</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
-
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
-
-          <span>ADD TO CART</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
-
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
-
-          <span>ADD TO CART</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
-
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
-
-          <span>ADD TO CART</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
-
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
-
-          <span>ADD TO CART</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src='https://static.netshoes.com.br/produtos/tenis-de-caminhada-leve-confortavel/06/E74-0492-006/E74-0492-006_zoom2.jpg?ts=1579006188&ims=326x'
-          alt='Tênis'
-        />
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,00</span>
-
-        <button type='button'>
-          <div>
-            <MdAddShoppingCart size={16} color='#FFF' />
-          </div>
-
-          <span>ADD TO CART</span>
-        </button>
-      </li>
+            <span>ADD TO CART</span>
+          </button>
+        </li>
+      ))}
     </ProductList>
   )
 }
