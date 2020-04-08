@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import { MdShoppingBasket } from 'react-icons/md'
 import { Container, Cart } from './styles'
 import logo from '../../assets/images/logo.svg'
 
-const Header = () => {
+const Header = ({ cartSize }) => {
   return (
     <Container>
       <Link to='/'>
@@ -15,7 +16,7 @@ const Header = () => {
       <Cart to='/cart'>
         <div>
           <strong>My Cart</strong>
-          <span>3 itens</span>
+          <span>{cartSize} items</span>
         </div>
         <MdShoppingBasket size={36} color='#FFF' />
       </Cart>
@@ -23,4 +24,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default connect((state) => ({ cartSize: state.cart.length }))(Header)
