@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 
 import HelmetHeader from './components/HelmetHeader'
 import Header from './components/Header'
@@ -18,6 +19,7 @@ const App = () => {
         <Header />
         <Routes />
         <GlobalStyle />
+        <ToastContainer autoClose={3000} />
       </BrowserRouter>
     </Provider>
   )
