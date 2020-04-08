@@ -9,7 +9,7 @@ import { ProductList } from './styles'
 
 import * as CartActions from '../../store/modules/cart/actions'
 
-const Home = ({ addToCart, amount }) => {
+const Home = ({ addToCartRequest, amount }) => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const Home = ({ addToCart, amount }) => {
     runEffect()
   }, [])
 
-  const handleAddProduct = (product) => {
-    addToCart(product)
+  const handleAddProduct = (id) => {
+    addToCartRequest(id)
   }
 
   return (
@@ -45,7 +45,7 @@ const Home = ({ addToCart, amount }) => {
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
 
-          <button type='button' onClick={() => handleAddProduct(product)}>
+          <button type='button' onClick={() => handleAddProduct(product.id)}>
             <div>
               <MdAddShoppingCart size={16} color='#FFF' /> {amount[product.id] || 0}
             </div>
