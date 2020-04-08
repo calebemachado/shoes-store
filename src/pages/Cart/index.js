@@ -7,13 +7,13 @@ import { Container, ProductTable, Total } from './styles'
 import { formatPrice } from '../../util/format'
 import * as CartActions from '../../store/modules/cart/actions'
 
-function Cart({ cart, removeFromCart, updateAmount, total }) {
+function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
   const increment = (product) => {
-    updateAmount(product.id, product.amount + 1)
+    updateAmountRequest(product.id, product.amount + 1)
   }
 
   const decrement = (product) => {
-    updateAmount(product.id, product.amount - 1)
+    updateAmountRequest(product.id, product.amount - 1)
   }
 
   return (
