@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
 import api from '../../services/api'
 import { formatPrice } from '../../util/format'
 
@@ -9,8 +8,15 @@ import { ProductList } from './styles'
 
 import * as CartActions from '../../store/modules/cart/actions'
 
-const Home = ({ addToCartRequest, amount }) => {
+const Home = () => {
+  const amount = useSelector((state) =>
+    state.cart.reduce((amount, product) => {
+      amount[product.id] = product.amount
+      return amount
+    }, {})
+  )
   const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     let ignore = false
@@ -34,7 +40,7 @@ const Home = ({ addToCartRequest, amount }) => {
   }, [])
 
   const handleAddProduct = (id) => {
-    addToCartRequest(id)
+    dispatch(CartActions.addToCartRequest(id))
   }
 
   return (
@@ -58,13 +64,4 @@ const Home = ({ addToCartRequest, amount }) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount
-    return amount
-  }, {}),
-})
-
-const mapDispatchToProps = (dispatch) => bindActionCreators(CartActions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
