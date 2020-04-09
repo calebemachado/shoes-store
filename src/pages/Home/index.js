@@ -9,13 +9,13 @@ import { ProductList } from './styles'
 import * as CartActions from '../../store/modules/cart/actions'
 
 const Home = () => {
+  const [products, setProducts] = useState([])
   const amount = useSelector((state) =>
     state.cart.reduce((amount, product) => {
       amount[product.id] = product.amount
       return amount
     }, {})
   )
-  const [products, setProducts] = useState([])
   const dispatch = useDispatch()
 
   useEffect(() => {
